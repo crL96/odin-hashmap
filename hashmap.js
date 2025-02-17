@@ -80,7 +80,6 @@ class HashMap {
             if (currentNode.value[0] == key) {
                 if (currentNode.nextNode == null && lastNode == null) { //If its the only key in the bucket, remove bucket
                     this.buckets[hashCode] = undefined;
-                    console.log("this ran");
                 }
                 else if (currentNode.nextNode == null) { //if its the last key
                     this.buckets[hashCode].pop();
@@ -89,7 +88,6 @@ class HashMap {
                 } else { //if its not first or last, link last node to next node
                     lastNode.nextNode = currentNode.nextNode;
                 }
-                console.log("this ran 2");
                 return true;
             }
             lastNode = currentNode;
