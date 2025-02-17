@@ -66,6 +66,12 @@ export default class LinkedList {
         currentNode.nextNode = null;
     }
 
+    shift() {
+        if (this.head == null) throw Error("List is empty");
+        let currentNode = this.head;
+        this.head = currentNode.nextNode;
+    }
+
     contains(value) {
         if (this.head == null) throw Error("List is empty");
 
