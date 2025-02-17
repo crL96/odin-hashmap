@@ -67,11 +67,34 @@ class HashMap {
         }
         return false;
     }
-}
 
-const map = new HashMap();
-map.set("Carl", 12);
-map.set("Carlos", 13);
-map.set("Car", 14);
-map.set("Crl", 15);
-console.log(map.has("Carl"));
+    remove(key) {
+        const hashCode = this.hash(key);
+
+        if (this.buckets[hashCode] === undefined) {
+            return false;
+        }
+        let currentNode = this.buckets[hashCode].head;
+        let lastNode = null;
+        while (currentNode != null) { // Loop through linkedlist
+            if (currentNode.value[0] == key) {
+                if (currentNode.nextNode == null && lastNode == null) { //If its the only key in the bucket, remove bucket
+                    this.buckets[hashCode] = undefined;
+                    console.log("this ran");
+                }
+                else if (currentNode.nextNode == null) { //if its the last key
+                    this.buckets[hashCode].pop();
+                } else if (lastNode == null) { //if its the first key
+                    this.buckets[hashCode].shift();
+                } else { //if its not first or last, link last node to next node
+                    lastNode.nextNode = currentNode.nextNode;
+                }
+                console.log("this ran 2");
+                return true;
+            }
+            lastNode = currentNode;
+            currentNode = currentNode.nextNode;
+        }
+        return false;
+    }
+}
