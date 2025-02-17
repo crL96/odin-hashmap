@@ -35,4 +35,43 @@ class HashMap {
 
         this.buckets[hashCode].prepend([key, value]);
     }
+
+    get(key) {
+        const hashCode = this.hash(key);
+
+        if (this.buckets[hashCode] === undefined) {
+            return null;
+        }
+        let currentNode = this.buckets[hashCode].head;
+        while (currentNode != null) {
+            if (currentNode.value[0] == key) {
+                return currentNode.value[1];
+            }
+            currentNode = currentNode.nextNode;
+        }
+        return null;
+    }
+
+    has(key) {
+        const hashCode = this.hash(key);
+
+        if (this.buckets[hashCode] === undefined) {
+            return false;
+        }
+        let currentNode = this.buckets[hashCode].head;
+        while (currentNode != null) {
+            if (currentNode.value[0] == key) {
+                return true;
+            }
+            currentNode = currentNode.nextNode;
+        }
+        return false;
+    }
 }
+
+const map = new HashMap();
+map.set("Carl", 12);
+map.set("Carlos", 13);
+map.set("Car", 14);
+map.set("Crl", 15);
+console.log(map.has("Carl"));
