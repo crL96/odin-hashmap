@@ -97,4 +97,18 @@ class HashMap {
         }
         return false;
     }
+
+    length() {
+        let counter = 0;
+        for (let i = 0; i < this.buckets.length; i++) {
+            if (this.buckets[i] != undefined) {
+                counter += this.buckets[i].size();
+            }
+        }
+        return counter;
+    }
+
+    clear() {
+        this.buckets = new Array(16);
+    }
 }
