@@ -3,18 +3,23 @@ import LinkedList from "./linkedList.js";
 class HashMap {
     constructor() {
         this.buckets = new Array(16);
+        this.capacity = this.buckets.length;
+        this.loadFactor = 0.75;
     }
 
     hash(key) {
         let hashCode = 0;
         const primeNumber = 31;
         for (let i = 0; i < key.length; i++) {
-            hashCode = ( primeNumber * hashCode + key.charCodeAt(i) ) % this.buckets.length;
+            hashCode = ( primeNumber * hashCode + key.charCodeAt(i) ) % this.capacity;
         }
         return hashCode;
     }
 
     set(key, value) {
+
+        if (this.length() > this.capacity * this.loadFactor) this.doubleBuckets();
+
         const hashCode = this.hash(key);
 
         if (this.buckets[hashCode] === undefined) {
@@ -75,24 +80,16 @@ class HashMap {
             return false;
         }
         let currentNode = this.buckets[hashCode].head;
-        let lastNode = null;
+        let indexCounter = 0;
         while (currentNode != null) { // Loop through linkedlist
             if (currentNode.value[0] == key) {
-                if (currentNode.nextNode == null && lastNode == null) { //If its the only key in the bucket, remove bucket
-                    this.buckets[hashCode] = undefined;
-                }
-                else if (currentNode.nextNode == null) { //if its the last key
-                    this.buckets[hashCode].pop();
-                } else if (lastNode == null) { //if its the first key
-                    this.buckets[hashCode].shift();
-                } else { //if its not first or last, link last node to next node
-                    lastNode.nextNode = currentNode.nextNode;
-                }
+                this.buckets[hashCode].removeAt(indexCounter);
                 return true;
             }
-            lastNode = currentNode;
             currentNode = currentNode.nextNode;
+            indexCounter++;
         }
+
         return false;
     }
 
@@ -153,5 +150,17 @@ class HashMap {
             }
         }
         return array;
+    }
+
+    doubleBuckets() {
+        const newBuckets = new Array(this.capacity * 2);
+        this.capacity *= 2;
+        const allEntries = this.entries();
+
+        this.buckets = newBuckets;
+
+        allEntries.forEach(element => {
+            this.set(element[0], element[1]);
+        });
     }
 }
