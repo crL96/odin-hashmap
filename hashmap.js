@@ -111,4 +111,49 @@ class HashMap {
     clear() {
         this.buckets = new Array(16);
     }
+
+    keys() {
+        const array = [];
+
+        for (let i = 0; i < this.buckets.length; i++) {
+            if (this.buckets[i] === undefined) continue;
+
+            let currentNode = this.buckets[i].head;
+            while (currentNode != null) {
+                array.push(currentNode.value[0]);
+                currentNode = currentNode.nextNode;
+            }
+        }
+        return array;
+    }
+
+    values() {
+        const array = [];
+
+        for (let i = 0; i < this.buckets.length; i++) {
+            if (this.buckets[i] === undefined) continue;
+
+            let currentNode = this.buckets[i].head;
+            while (currentNode != null) {
+                array.push(currentNode.value[1]);
+                currentNode = currentNode.nextNode;
+            }
+        }
+        return array;
+    }
+
+    entries() {
+        const array = [];
+
+        for (let i = 0; i < this.buckets.length; i++) {
+            if (this.buckets[i] === undefined) continue;
+
+            let currentNode = this.buckets[i].head;
+            while (currentNode != null) {
+                array.push(currentNode.value);
+                currentNode = currentNode.nextNode;
+            }
+        }
+        return array;
+    }
 }
